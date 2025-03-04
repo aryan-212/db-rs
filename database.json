@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "1": {
+      "id": 1,
+      "name": "Test Task",
+      "completed": false
+    }
+  },
+  "users": {}
+}
