@@ -49,7 +49,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(data.clone())
             .route("/task", web::post().to(create_task))
             .route("/tasks", web::get().to(get_tasks))
-            .route("/insert_user", web::put().to(add_user))
+            .route("/insert_user", web::post().to(add_user))
             .route("/delete/{id}", web::delete().to(delete_task))
     })
     .bind("127.0.0.1:8080")?

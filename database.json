@@ -1,8 +1,19 @@
 {
-  "tasks": {},
+  "tasks": {
+    "2": {
+      "id": 2,
+      "name": "Complete Rust project",
+      "completed": false
+    }
+  },
   "users": {
     "1": {
       "id": 1,
+      "username": "aryan_anand",
+      "password": "what_is_this"
+    },
+    "2": {
+      "id": 2,
       "username": "aryan_anand",
       "password": "what_is_this"
     }

@@ -10,7 +10,7 @@ pub struct Task {
 pub struct User {
     id: u64,
     username: String,
-    password: String,k
+    password: String,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -45,7 +45,7 @@ impl Database {
         if task.is_some() {
             self.save_to_file().expect("Failed to save after deletion");
         }
-        task 
+        task
     }
 
     pub fn insert_user(&mut self, user: User) {

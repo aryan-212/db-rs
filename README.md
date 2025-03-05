@@ -75,7 +75,7 @@ This is a simple task management API built using Rust and Actix-web. It provides
   ```sh
   curl -X PUT http://127.0.0.1:8080/insert_user \
        -H "Content-Type: application/json" \
-       -d '{"id":1, "name":"John Doe"}'
+       -d '{"id":1, "username":"John Doe","password":"random@123"}'
   ```
 
 ### Delete a Task
