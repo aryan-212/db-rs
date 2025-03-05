@@ -1,4 +1,10 @@
 {
   "tasks": {},
-  "users": {}
+  "users": {
+    "1": {
+      "id": 1,
+      "username": "aryan_anand",
+      "password": "what_is_this"
+    }
+  }
 }
