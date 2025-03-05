@@ -1,6 +1,8 @@
 use actix_cors::Cors;
+use actix_web::web::Data;
 use actix_web::{http::header, web, App, HttpResponse, HttpServer, Responder};
 use serde::{Deserialize, Serialize};
+use std::any::Any;
 use std::collections::HashMap;
 use std::fs::{File, OpenOptions};
 use std::io::{Read, Write};
@@ -48,9 +50,12 @@ impl Database {
         self.tasks.values().cloned().collect()
     }
 
-    fn delete_task(&mut self, id: &u64) {
-        self.tasks.remove(id);
-        self.save_to_file().expect("Failed to save after deletion");
+    fn delete_task(&mut self, id: &u64) -> Option<Task> {
+        let task = self.tasks.remove(id); // Remove task if it exists
+        if task.is_some() {
+            self.save_to_file().expect("Failed to save after deletion");
+        }
+        task // Return the removed task or None
     }
 
     fn insert_user(&mut self, user: User) {
@@ -101,6 +106,15 @@ async fn get_tasks(app_state: web::Data<AppState>) -> impl Responder {
     let tasks = db.get_all_tasks();
     HttpResponse::Ok().json(tasks)
 }
+async fn delete_task(app_state: web::Data<AppState>, body: web::Path<u64>) -> impl Responder {
+    let mut db = app_state.db.lock().expect("Failed to lock database");
+
+    if db.delete_task(&body).is_some() {
+        HttpResponse::Ok().json("Deleted successfully")
+    } else {
+        HttpResponse::NotFound().json("Task not found")
+    }
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -123,6 +137,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(data.clone())
             .route("/task", web::post().to(create_task))
             .route("/tasks", web::get().to(get_tasks))
+            .route("/delete/{id}", web::delete().to(delete_task))
     })
     .bind("127.0.0.1:8080")?
     .run()
