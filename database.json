@@ -2,7 +2,7 @@
   "tasks": {
     "1": {
       "id": 1,
-      "name": "Test Task",
+      "name": "Complete Rust project",
       "completed": false
     }
   },
