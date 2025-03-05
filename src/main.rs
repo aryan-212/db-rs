@@ -27,7 +27,18 @@ async fn delete_task(app_state: web::Data<AppState>, body: web::Path<u64>) -> im
         HttpResponse::NotFound().json("Task not found")
     }
 }
+async fn get_user_by_username(
+    app_state: web::Data<AppState>,
+    username: web::Path<String>,
+) -> impl Responder {
+    let db = app_state.db.lock().expect("Failed to lock database");
 
+    if let Some(user) = db.get_user_by_username(&username) {
+        return HttpResponse::Ok().json(user);
+    }
+
+    HttpResponse::NotFound().json("User not found")
+}
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let db = Database::load_from_file().unwrap_or_else(|_| Database::new());
@@ -51,6 +62,7 @@ async fn main() -> std::io::Result<()> {
             .route("/tasks", web::get().to(get_tasks))
             .route("/insert_user", web::post().to(add_user))
             .route("/delete/{id}", web::delete().to(delete_task))
+            .route("/getby_username/{id}", web::post().to(get_user_by_username))
     })
     .bind("127.0.0.1:8080")?
     .run()
