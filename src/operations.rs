@@ -10,7 +10,7 @@ pub struct Task {
 pub struct User {
     id: u64,
     username: String,
-    password: String,
+    password: String,k
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -27,7 +27,6 @@ impl Database {
         }
     }
 
-    // CRUD Operations
     pub fn insert_task(&mut self, task: Task) {
         self.tasks.insert(task.id, task);
         self.save_to_file().expect("Failed to save task");
@@ -46,7 +45,7 @@ impl Database {
         if task.is_some() {
             self.save_to_file().expect("Failed to save after deletion");
         }
-        task // Return the removed task or None
+        task 
     }
 
     pub fn insert_user(&mut self, user: User) {
